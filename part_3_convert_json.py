@@ -43,22 +43,46 @@ def make_level_pack_from_json( json_data ):
         upper_layer = level["upper layer"]
         new_cclevel.upper_layer = upper_layer
 
+        # #  lower layer
+        # lower_layer = level["lower layer"]
+        # new_cclevel.lower_layer = lower_layer
+
         #  optional fields (which requires reading map title, password, hint text and moving monster locations)
-        optional_fields = level["optional_fields"]
+        optional_fields = level["optional fields"]
         for field in optional_fields:
-           #new_platform = test_data.Platform(platform["name"],platform["launch_year"])
-           #new_game.platform = new_platform
+           field_type = field["field_type"]
+           if field_type == "hint":
+               new_hint_field = cc_classes.CCMapHintField(field["hint"])
+               new_cclevel.add_field(new_hint_field)
+           elif field_type == "title":
+               new_title_field = cc_classes.CCMapTitleField(field["title"])
+               new_cclevel.add_field(new_title_field)
+           elif field_type == "password":
+               new_password_field = cc_classes.CCEncodedPasswordField(field["password"])
+               new_cclevel.add_field(new_password_field)
+           elif field_type == "monster":
+               monsters = []
+               for json_monster in field["monsters"]:
+                    x = json_monster["x"]
+                    y = json_monster["y"]
+                    new_monster_coord = cc_classes.CCCoordinate(x,y)
+                    monsters.append(new_monster_coord)
+               new_monster_field = cc_classes.CCMonsterMovementField(monsters)
+               new_cclevel.add_field(new_monster_field)
 
         #Add that Game object to the game_library
         cclevel_pack.add_level(new_cclevel)    
-    ### End Add Code Here ###
+    
 
     return cclevel_pack
 
 
 CCLevelPack = make_level_pack_from_json(level_pack_json_data)
 
-print(CCLevelPack)
+
 
 #Save converted data to DAT file
-cc_dat_utils.write_cc_level_pack_to_dat(CCLevelPack, "data/dpembert_ccl")
+cc_dat_utils.write_cc_level_pack_to_dat(CCLevelPack, "data/dpembert_ccl.dat")
+# test_pack = cc_dat_utils.make_cc_level_pack_from_dat("data/dpembert_ccl.dat")
+# print(test_pack)
+#print(CCLevelPack)
