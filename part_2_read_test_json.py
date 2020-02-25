@@ -15,6 +15,7 @@ def make_game_library_from_json( json_data ):
     for game in games:
         #Create a new Game object from the json_data by reading
         new_game = test_data.Game()
+        
         #  title
         title = game["title"]
         new_game.title = title
@@ -28,7 +29,7 @@ def make_game_library_from_json( json_data ):
         for platform in platforminfo:
            new_platform = test_data.Platform(platform["name"],platform["launch_year"])
            new_game.platform = new_platform
-           
+
         #Add that Game object to the game_library
         game_library.add_game(new_game)    
     ### End Add Code Here ###
