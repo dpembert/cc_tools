@@ -4,7 +4,7 @@ import json
 
 #Part 3
 #Load your custom JSON file
-input_json_file = "data/dpembert_ccl.json"
+input_json_file = "data/dpembert_cc_level_data.json"
 
 ##Open the file specified by input_json_file
 with open(input_json_file, "r") as reader:
@@ -82,7 +82,7 @@ CCLevelPack = make_level_pack_from_json(level_pack_json_data)
 
 
 #Save converted data to DAT file
-cc_dat_utils.write_cc_level_pack_to_dat(CCLevelPack, "data/dpembert_ccl.dat")
+cc_dat_utils.write_cc_level_pack_to_dat(CCLevelPack, "data/dpembert_cc_level_data.dat")
 # test_pack = cc_dat_utils.make_cc_level_pack_from_dat("data/dpembert_ccl.dat")
 # print(test_pack)
 #print(CCLevelPack)
